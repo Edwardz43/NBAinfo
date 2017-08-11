@@ -1,7 +1,6 @@
 package tw.iii.ed.nba;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -12,30 +11,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-@WebServlet("/Main")
-public class Main extends HttpServlet {
-	
+@WebServlet("/Players")
+public class Players extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			response.setContentType("text/html; charset=UTF-8");
 			request.setCharacterEncoding("UTF-8");
 			Connection conn = (Connection)getServletContext().getAttribute("conn");
-			//boolean isConnection = (boolean)getServletContext().getAttribute("isConnection");
-			//System.out.println(conn.toString());
+			String id = request.getParameter("teamID");
 			
 			Statement stmt = conn.createStatement();
-			String sql = "select * from teams";
+			String sql = "SELECT playerID, firstname, lastname, number, pos, picture, name" + 
+					"		FROM players as p JOIN teams as t on p.teamID = t.teamID" + 
+					"		where p.teamID = " + id;
 			ResultSet rs = stmt.executeQuery(sql);
 			//rs.next();
 			request.setAttribute("rs", rs);
-			request.getRequestDispatcher("Main.jsp").forward(request, response);
+			request.getRequestDispatcher("Players.jsp").forward(request, response);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 	}
 }

@@ -6,8 +6,10 @@ import java.sql.DriverManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
-public class ServerListener implements  ServletContextListener{
+@WebListener
+public class ServerListener implements ServletContextListener{
 	private ServletContext servletContext;
 	
 	@Override
